@@ -191,10 +191,10 @@ export default {
         alert("tracker updated");
       }
     },
-    async addlog(trackername) {
+    async addlog(trackerid) {
       let result = await axios
         .post(
-          trackername + "/log",
+          trackerid + "/log",
           {
             value: this.value,
             note: this.note,
@@ -690,11 +690,7 @@ export default {
           >
             Close
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="addlog(uptrackername)"
-          >
+          <button type="button" class="btn btn-primary" @click="addlog(upid)">
             Save
           </button>
         </div>

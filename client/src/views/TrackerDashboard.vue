@@ -26,9 +26,9 @@ export default {
     this.tracker_id = 0;
   },
   methods: {
-    async getlogcsv(tracker_name) {
+    async getlogcsv(tracker_id) {
       const result = await axios
-        .get("export/" + tracker_name + "/logcsv", {
+        .get("export/" + tracker_id + "/logcsv", {
           headers: {
             "x-access-token": localStorage.getItem("token"),
           },
@@ -49,16 +49,16 @@ export default {
 
         link.setAttribute(
           "download",
-          this.username + "_" + tracker_name + "_AllLogs" + ".csv"
+          this.username + "_" + this.cur_tracker.name + "_AllLogs" + ".csv"
         );
         document.body.appendChild(link);
         link.click();
         link.remove();
       }
     },
-    async getlogpdf(tracker_name) {
+    async getlogpdf(tracker_id) {
       const result = await axios
-        .get("export/" + tracker_name + "/logpdf", {
+        .get("export/" + tracker_id + "/logpdf", {
           headers: {
             "x-access-token": localStorage.getItem("token"),
           },
@@ -79,7 +79,7 @@ export default {
 
         link.setAttribute(
           "download",
-          this.username + "_" + tracker_name + "_AllLogs" + ".pdf"
+          this.username + "_" + this.cur_tracker.name + "_AllLogs" + ".pdf"
         );
         document.body.appendChild(link);
         link.click();
@@ -99,7 +99,7 @@ export default {
     async addlog() {
       let result = await axios
         .post(
-          this.cur_tracker.name + "/log",
+          this.cur_tracker.id + "/log",
           {
             value: this.value,
             note: this.note,
@@ -128,7 +128,7 @@ export default {
     async updatelog(id) {
       let result = await axios
         .post(
-          "updatelog/" + this.cur_tracker.name + "/" + id,
+          "updatelog/" + this.cur_tracker.id + "/" + id,
           {
             value: this.upvalue,
             note: this.upnote,
@@ -154,7 +154,7 @@ export default {
     async deletelog(id) {
       let result = await axios
         .delete(
-          "deletelog/" + this.cur_tracker.name + "/" + id,
+          "deletelog/" + this.cur_tracker.id + "/" + id,
 
           {
             headers: {
@@ -175,7 +175,7 @@ export default {
     async deletealllogs() {
       let result = await axios
         .delete(
-          this.cur_tracker.name + "/delalllogs",
+          this.cur_tracker.id + "/delalllogs",
 
           {
             headers: {
@@ -224,7 +224,7 @@ export default {
       this.cur_tracker = ctracker.data;
       console.log(ctracker.data);
     }
-    const logs = await axios.get(this.cur_tracker.name + "/alllog", {
+    const logs = await axios.get(this.cur_tracker.id + "/alllog", {
       headers: {
         "x-access-token": localStorage.getItem("token"),
       },
@@ -232,10 +232,9 @@ export default {
     if (logs.status == 200) {
       this.logs = logs.data.logs;
       console.log(logs.data.logs);
-      
     }
     const chart = await axios
-      .get(this.cur_tracker.name + "/plot", {
+      .get(this.cur_tracker.id + "/plot", {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -663,14 +662,14 @@ export default {
             <button
               class="btn btn-info"
               type="button"
-              @click="getlogpdf(this.cur_tracker.name)"
+              @click="getlogpdf(this.cur_tracker.id)"
             >
               Export As .pdf
             </button>
             <button
               class="btn btn-info"
               type="button"
-              @click="getlogcsv(this.cur_tracker.name)"
+              @click="getlogcsv(this.cur_tracker.id)"
             >
               Export As .csv
             </button>
