@@ -79,7 +79,7 @@ class User(db.Model):
 
 class Tracker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
+    name = db.Column(db.String(50))
     desc = db.Column(db.String(500))
     trackertype = db.Column(db.String(20))
     user_id = db.Column(db.Integer)
@@ -90,7 +90,7 @@ class Logs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.String(500))
     note = db.Column(db.String(500))
-    tracker = db.Column(db.String(50))
+    trackerid = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, nullable=False,
                           default=datetime.now())
     user_id = db.Column(db.Integer)
@@ -408,7 +408,7 @@ def delete_tracker(current_user, tracker_id):
     tracker = Tracker.query.filter_by(
         id=tracker_id, user_id=current_user.id).first()
     logs = Logs.query.filter_by(
-        user_id=current_user.id, tracker=tracker.name).all()
+        user_id=current_user.id, trackerid=tracker.id).all()
 
     for log in logs:
         db.session.delete(log)
@@ -441,17 +441,17 @@ def update_tracker(current_user, tracker_id):
     return jsonify({'message': 'Trakcer updated!'})
 
 
-@app.route('/<tracker_name>/log', methods=['POST'])
+@app.route('/<tracker_id>/log', methods=['POST'])
 @token_required
-def create_log(current_user, tracker_name):
+def create_log(current_user, tracker_id):
     data = request.get_json()
 
     new_log = Logs(value=data['value'], note=data['note'],
-                   user_id=current_user.id, tracker=tracker_name)
+                   user_id=current_user.id, trackerid=tracker_id)
     db.session.add(new_log)
     db.session.commit()
     tracker = Tracker.query.filter_by(
-        name=tracker_name, user_id=current_user.id).first()
+        id=tracker_id, user_id=current_user.id).first()
     tracker.lastused = datetime.now()
     db.session.add(tracker)
     db.session.commit()
@@ -459,18 +459,18 @@ def create_log(current_user, tracker_name):
     return jsonify({'message': "new log added"})
 
 
-@app.route('/<tracker_name>/alllog', methods=['GET'])
+@app.route('/<tracker_id>/alllog', methods=['GET'])
 @token_required
-def get_all_logs(current_user, tracker_name):
+def get_all_logs(current_user, tracker_id):
     logs = Logs.query.filter_by(
-        user_id=current_user.id, tracker=tracker_name).all()
+        user_id=current_user.id, trackerid=tracker_id).all()
 
     output = []
 
     for log in logs:
         log_data = {}
         log_data['id'] = log.id
-        log_data['tracker'] = log.tracker
+        log_data['trackerid'] = log.trackerid
         log_data['note'] = log.note
         log_data['value'] = log.value
         log_data['timestamp'] = log.timestamp
@@ -479,11 +479,11 @@ def get_all_logs(current_user, tracker_name):
     return jsonify({'logs': output})
 
 
-@app.route('/<tracker_name>/delalllogs', methods=['DELETE'])
+@app.route('/<tracker_id>/delalllogs', methods=['DELETE'])
 @token_required
-def del_all_logs(current_user, tracker_name):
+def del_all_logs(current_user, tracker_id):
     logs = Logs.query.filter_by(
-        user_id=current_user.id, tracker=tracker_name).all()
+        user_id=current_user.id, trackerid=tracker_id).all()
 
     for log in logs:
         db.session.delete(log)
@@ -492,11 +492,11 @@ def del_all_logs(current_user, tracker_name):
     return jsonify({'message': 'All trackers deleted'})
 
 
-@app.route('/deletelog/<tracker_name>/<log_id>', methods=['DELETE'])
+@app.route('/deletelog/<tracker_id>/<log_id>', methods=['DELETE'])
 @token_required
-def delete_log(current_user, log_id, tracker_name):
+def delete_log(current_user, log_id, tracker_id):
     log = Logs.query.filter_by(
-        id=log_id, user_id=current_user.id, tracker=tracker_name).first()
+        id=log_id, user_id=current_user.id, trackerid=tracker_id).first()
 
     if not log:
         return jsonify({'message': 'No todo found!'})
@@ -526,11 +526,11 @@ def get_one_tracker(current_user, tracker_id):
     return jsonify(tracker_data)
 
 
-@app.route('/updatelog/<tracker_name>/<log_id>', methods=['POST'])
+@app.route('/updatelog/<tracker_id>/<log_id>', methods=['POST'])
 @token_required
-def update_log(current_user, tracker_name, log_id):
+def update_log(current_user, tracker_id, log_id):
     log = Logs.query.filter_by(
-        id=log_id, user_id=current_user.id, tracker=tracker_name).first()
+        id=log_id, user_id=current_user.id, trackerid=tracker_id).first()
 
     if not log:
         return jsonify({'message': 'No log found!'})
@@ -548,7 +548,7 @@ def update_log(current_user, tracker_name, log_id):
 @app.route('/export/trackercsv', methods=['GET'])
 @token_required
 def download_datatracker(current_user):
-    query_sets = Tracker.query.filter_by(user_id=1).all()
+    query_sets = Tracker.query.filter_by(user_id=current_user.id).all()
     column_names = ['name', "trackertype", 'desc']
 
     excel.init_excel(app)
@@ -560,7 +560,6 @@ def download_datatracker(current_user):
 @token_required
 def export_pdftracker(current_user):
     trackers = Tracker.query.filter_by(user_id=current_user.id).all()
-    
 
     rendered = render_template("tracker_pdf_report.html", trackers=trackers, username=current_user.name,
                                useremail=current_user.email, downloadtime=datetime.now())
@@ -574,30 +573,33 @@ def export_pdftracker(current_user):
     return response
 
 
-@app.route('/export/<tracker_name>/logcsv', methods=['GET'])
+@app.route('/export/<tracker_id>/logcsv', methods=['GET'])
 @token_required
-def download_datalog(current_user, tracker_name):
+def download_datalog(current_user, tracker_id):
     query_sets = Logs.query.filter_by(
-        user_id=current_user.id, tracker=tracker_name).all()
-    column_names = ['tracker', 'value', "note", 'timestamp']
+        user_id=current_user.id, trackerid=tracker_id).all()
+    tracker = Tracker.query.filter_by(
+        user_id=current_user.id, id=tracker_id).first()
+    column_names = ['trackerid', 'value', "note", 'timestamp']
 
     excel.init_excel(app)
     extension_type = "csv"
-    filename = tracker_name + "_AllLogs" + "." + extension_type
+    filename = tracker.name + "_AllLogs" + "." + extension_type
 
     return excel.make_response_from_query_sets(query_sets, column_names, extension_type, file_name=filename)
 
 
-@app.route("/export/<tracker_name>/logpdf", methods=['GET'])
+@app.route("/export/<tracker_id>/logpdf", methods=['GET'])
 @token_required
-def export_pdflog(current_user, tracker_name):
+def export_pdflog(current_user, tracker_id):
     query_sets = Logs.query.filter_by(
-        user_id=current_user.id, tracker=tracker_name).all()
+        user_id=current_user.id, trackerid=tracker_id).all()
 
-   
+    tracker = Tracker.query.filter_by(
+        user_id=current_user.id, id=tracker_id).first()
 
     rendered = render_template("pdf_report.html", logs=query_sets, username=current_user.name,
-                               useremail=current_user.email, trackername=tracker_name, downloadtime=datetime.now())
+                               useremail=current_user.email, trackername=tracker.name, downloadtime=datetime.now())
     pdf = pdfkit.from_string(
         rendered, False)
 
@@ -644,13 +646,13 @@ def google_auth():
     return make_response(jsonify({'token': token.decode('UTF-8')}), 201)
 
 
-@app.route('/<tracker_name>/plot', methods=['GET'])
+@app.route('/<tracker_id>/plot', methods=['GET'])
 @token_required
-def gen_chart_url(current_user, tracker_name):
+def gen_chart_url(current_user, tracker_id):
     logs = Logs.query.filter_by(
-        user_id=current_user.id, tracker=tracker_name).all()
+        user_id=current_user.id, trackerid=tracker_id).all()
     tracker = Tracker.query.filter_by(
-        name=tracker_name, user_id=current_user.id).first()
+        id=tracker_id, user_id=current_user.id).first()
     if (len(logs) == 0):
         return "nothing to show"
     yes = 0
@@ -740,14 +742,10 @@ def monthly_report():
                 user_id=user.id).all()
             trackers = Tracker.query.filter_by(user_id=user.id).all()
 
-            path_wkthmltopdf = r'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
-
-            config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
-
             rendered = render_template("monthly_progress.html", username=user.name,
-                                       useremail=user.email, nooftracker=len(trackers), nooflog=len(logs), logs=logs, downloadtime=datetime.now(), month=datetime.now().month)
+                                       useremail=user.email, nooftracker=len(trackers), nooflog=len(logs), logs=logs, trackers=trackers, downloadtime=datetime.now(), month=datetime.now().month)
             pdf = pdfkit.from_string(
-                rendered, False, configuration=config)
+                rendered, False)
 
             msg3 = Message(
                 user.name+", Your Monthly Progress Report -quansApp",

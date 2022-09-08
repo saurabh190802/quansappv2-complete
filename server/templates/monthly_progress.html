@@ -1,61 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-         <link
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
-      
     />
-    </head>
-    <body >
-        <div class="card text-center">
-  <div class="card-header">
-    <h2>Monthly Report - {{month}}</h2>
-  </div>
-  <div class="card-body">
-    <h6 class="card-title">Name: {{username}}</h6>
-    <h6 class="card-text">Email: {{useremail}}</h6>
-    <h6 class="card-text">Total No of Trackers Created: {{nooftracker}}</h6>
-    <h6 class="card-text">Total No of Logs: {{nooflog}}</h6>
-    
-  </div>
-  <div class="card-footer text-muted">
-    Created at {{downloadtime}}
-  </div>
-</div>
-<br>
-        
-        <table class="table table-dark table-striped">
-  <thead>
-    <tr>
-      <th scope="col">SNo.</th>
-      <th scope="col">Tracker Name</th>
-      <th scope="col">Value</th>
-      <th scope="col">Note</th>
-      <th scope="col">Timestamp</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for log in logs %}
-    <tr>
-      <th scope="row">{{loop.index}}</th>
-      <td>{{log.tracker}}</td>
-      <td>{{log.value}}</td>
-      <td>{{log.note}}</td>
-      <td>{{log.timestamp}}</td>
-    </tr>
-    {% endfor %}
-   
-  </tbody>
-</table>
-        <script src="" async defer></script>
-    </body>
+  </head>
+  <body>
+    <div class="card text-center">
+      <div class="card-header">
+        <h2>Monthly Report - {{month}}</h2>
+      </div>
+      <div class="card-body">
+        <h6 class="card-title">Name: {{username}}</h6>
+        <h6 class="card-text">Email: {{useremail}}</h6>
+        <h6 class="card-text">Total No of Trackers Created: {{nooftracker}}</h6>
+        <h6 class="card-text">Total No of Logs: {{nooflog}}</h6>
+      </div>
+      <div class="card-footer text-muted">Created at {{downloadtime}}</div>
+    </div>
+    <br />
+
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th scope="col">SNo.</th>
+          <th scope="col">Tracker Name</th>
+          <th scope="col">Value</th>
+          <th scope="col">Note</th>
+          <th scope="col">Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          {% for tracker in trackers %} {% if log.trackerid==tracker.id %}
+          <td>{{tracker.name}}</td>
+          {% endif %} {% endfor %}
+          <td>{{log.value}}</td>
+          <td>{{log.note}}</td>
+          <td>{{log.timestamp}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <script src="" async defer></script>
+  </body>
 </html>
