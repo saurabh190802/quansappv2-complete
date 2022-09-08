@@ -1,0 +1,2 @@
+web: gunicorn -b :$PORT app:app
+worker: celery worker -A celery_worker.celery --beat --loglevel=info
