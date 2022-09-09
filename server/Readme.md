@@ -9,5 +9,5 @@ $ pip install -r requirements.txt
 - run the appp
 
 ```
-python app.py
+$ python app.py
 ```
