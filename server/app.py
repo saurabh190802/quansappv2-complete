@@ -2,8 +2,6 @@
 from celery.schedules import crontab
 from flask_celery import make_celery
 import subprocess
-import pydf
-from headless_pdfkit import generate_pdf
 from httplib2 import Http
 from json import dumps
 import os
@@ -13,11 +11,11 @@ import flask_excel as excel
 from flask_cors import CORS
 from functools import wraps
 from datetime import datetime, timedelta
-import jwt
+import jwt  # imports for PyJWT authentication
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid  # for public id
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, request, jsonify, make_response, render_template, url_for, redirect
+from flask import Flask, request, jsonify, make_response, render_template
 from sqlite3 import Timestamp
 from distutils.log import Log
 import math
@@ -28,7 +26,6 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use("agg")
-# imports for PyJWT authentication
 
 
 # creates Flask object
@@ -37,8 +34,7 @@ mail = Mail(app)
 CORS(app)
 
 # configuration
-# NEVER HARDCODE YOUR CONFIGURATION IN YOUR CODE
-# INSTEAD CREATE A .env FILE AND STORE IN IT
+
 app.config['SECRET_KEY'] = 'your secret key'
 # database name
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Database.db'
@@ -47,7 +43,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
-# Database ORMs
 # celery config
 app.config['CELERY_BROKER_URL'] = "redis://localhost:6379/0"
 app.config['CELERY_BACKEND'] = "redis://localhost:6379/0"
@@ -64,6 +59,8 @@ app.config['beat_schedule'] = {
 }
 
 celery = make_celery(app)
+
+# Database ORMs
 
 
 class User(db.Model):
@@ -124,9 +121,6 @@ def token_required(f):
 
     return decorated
 
-# User Database Route
-# this route sends back list of users
-
 
 @app.route('/user', methods=['GET'])
 @token_required
@@ -139,16 +133,6 @@ def get_users(current_user):
     output['lastvisit'] = current_user.lastvisit
 
     return jsonify({'user': output})
-    # querying the database
-    # for all the entries in it
-
-    #users = User.query.all()
-    # converting the query objects
-    # to list of jsons
-
-    # for user in users:
-    # appending the user data json
-    # to the response list
 
 
 @app.route('/deleteuser', methods=['DELETE'])
@@ -253,6 +237,7 @@ def signup():
         return make_response('User already exists. Please Log in.', 202)
 
 
+# mail config
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'saurabhsatapathy0@gmail.com'
@@ -680,9 +665,9 @@ def gen_chart_url(current_user, tracker_id):
     if (tracker.trackertype == "Numerical"):
         data = []
         labelN = []
-        
+
         for log in logs:
-            
+
             data.append(log.value)
             labelN.append(str(log.timestamp.time())[0:5])
         img = BytesIO()
@@ -705,9 +690,9 @@ def gen_chart_url(current_user, tracker_id):
     if (tracker.trackertype == "Time Duration"):
         data = []
         labelN = []
-        
+
         for log in logs:
-        
+
             data.append(log.value)
             labelN.append(str(log.timestamp.time())[0:5])
         img = BytesIO()
@@ -761,7 +746,5 @@ def monthly_report():
 
 
 if __name__ == "__main__":
-    # setting debug to True enables hot reload
-    # and also provides a debugger shell
-    # if you hit an error while running the server
+
     app.run(debug=True)
