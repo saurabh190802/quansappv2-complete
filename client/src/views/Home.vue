@@ -474,7 +474,7 @@ export default {
               <input
                 type="name"
                 class="form-control"
-                id="exampleInputEmail1"
+                id="exampleInputname"
                 aria-describedby="nameHelp"
                 v-model="trackername"
               />
@@ -555,7 +555,7 @@ export default {
               <input
                 type="name"
                 class="form-control"
-                id="exampleInputEmail1"
+                id="exampleInputName"
                 aria-describedby="nameHelp"
                 v-model="uptrackername"
               />

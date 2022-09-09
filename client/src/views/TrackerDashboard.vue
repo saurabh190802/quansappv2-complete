@@ -475,8 +475,8 @@ export default {
               <input
                 type="number"
                 class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
+                id="exampleInputnumber"
+                aria-describedby="numberHelp"
                 v-model="upvalue"
                 v-if="this.cur_tracker.trackertype == 'Numerical'"
               />
@@ -492,8 +492,8 @@ export default {
               <input
                 type="number"
                 class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
+                id="exampleInputnumber"
+                aria-describedby="Help"
                 v-model="upvalue"
                 v-if="this.cur_tracker.trackertype == 'Time Duration'"
                 placeholder="Give duration in minutes"
@@ -514,8 +514,8 @@ export default {
               <input
                 type="text"
                 class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
+                id="exampleInput3"
+                aria-describedby="Help"
                 v-model="upnote"
               />
             </div>
@@ -583,16 +583,16 @@ export default {
               <input
                 type="number"
                 class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
+                id="exampleInput4"
+                aria-describedby="help"
                 v-model="value"
                 v-if="this.cur_tracker.trackertype == 'Numerical'"
               />
               <input
                 type="number"
                 class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
+                id="exampleInput5"
+                aria-describedby="Help"
                 v-model="value"
                 v-if="this.cur_tracker.trackertype == 'Time Duration'"
                 placeholder="Give duration in minutes"
