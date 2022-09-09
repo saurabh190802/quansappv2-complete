@@ -11,3 +11,13 @@ $ pip install -r requirements.txt
 ```
 $ python app.py
 ```
+
+- start redis server
+```
+$  celery -A app.celery worker --loglevel=info
+```
+```
+$ celery -A app.celery beat --loglevel=info
+```
+    
+  
