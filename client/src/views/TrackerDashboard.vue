@@ -169,7 +169,7 @@ export default {
 
       if (result.status == 200) {
         this.$router.go(this.$router.currentRoute);
-        alert("tracker deleted");
+        alert("Log deleted");
       }
     },
     async deletealllogs() {
@@ -458,7 +458,7 @@ export default {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add a New Tracker</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Update</h5>
           <button
             type="button"
             class="btn-close"
