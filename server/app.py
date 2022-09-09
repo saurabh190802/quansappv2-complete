@@ -140,6 +140,16 @@ def get_users(current_user):
 def delete_user(current_user):
     user = User.query.filter_by(
         id=current_user.id).first()
+    trackers = Tracker.query.filter_by(user_id=current_user.id).all()
+    logs = Logs.query.filter_by(
+        user_id=current_user.id).all()
+    for log in logs:
+        db.session.delete(log)
+        db.session.commit()
+
+    for tracker in trackers:
+        db.session.delete(tracker)
+        db.session.commit()
 
     db.session.delete(user)
     db.session.commit()
@@ -432,7 +442,7 @@ def create_log(current_user, tracker_id):
     data = request.get_json()
 
     new_log = Logs(value=data['value'], note=data['note'],
-                   user_id=current_user.id, trackerid=tracker_id)
+                   user_id=current_user.id, trackerid=tracker_id, timestamp=datetime.now())
     db.session.add(new_log)
     db.session.commit()
     tracker = Tracker.query.filter_by(
@@ -669,7 +679,7 @@ def gen_chart_url(current_user, tracker_id):
         for log in logs:
 
             data.append(log.value)
-            labelN.append(str(log.timestamp.time())[0:5])
+            labelN.append(str(log.timestamp.time())[0:8])
         img = BytesIO()
         new_dict = {labelN[i]: data[i] for i in range(len(data))}
         final = sorted(new_dict.items(), key=lambda x: x[1])
@@ -677,7 +687,7 @@ def gen_chart_url(current_user, tracker_id):
         sortdict = dict(final)
 
         plt.bar(sortdict.keys(), sortdict.values(), width=0.1)
-        plt.xlabel('Log SNo.', fontsize=15)
+        plt.xlabel('Time', fontsize=15)
 
         plt.ylabel('Values', fontsize=15)
 
@@ -694,7 +704,7 @@ def gen_chart_url(current_user, tracker_id):
         for log in logs:
 
             data.append(log.value)
-            labelN.append(str(log.timestamp.time())[0:5])
+            labelN.append(str(log.timestamp.time())[0:8])
         img = BytesIO()
         new_dict = {labelN[i]: data[i] for i in range(len(data))}
         final = sorted(new_dict.items(), key=lambda x: x[1])
@@ -702,7 +712,7 @@ def gen_chart_url(current_user, tracker_id):
         sortdict = dict(final)
 
         plt.bar(sortdict.keys(), sortdict.values(), width=0.1)
-        plt.xlabel('Log SNo.', fontsize=15)
+        plt.xlabel('Time', fontsize=15)
 
         plt.ylabel('Values', fontsize=15)
 
