@@ -705,9 +705,9 @@ def gen_chart_url(current_user, tracker_id):
     if (tracker.trackertype == "Time Duration"):
         data = []
         labelN = []
-        #c = -1
+        
         for log in logs:
-            #c = c+1
+        
             data.append(log.value)
             labelN.append(str(log.timestamp.time())[0:5])
         img = BytesIO()
