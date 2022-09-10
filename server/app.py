@@ -484,7 +484,7 @@ def del_all_logs(current_user, tracker_id):
         db.session.delete(log)
         db.session.commit()
 
-    return jsonify({'message': 'All trackers deleted'})
+    return jsonify({'message': 'All logs deleted'})
 
 
 @app.route('/deletelog/<tracker_id>/<log_id>', methods=['DELETE'])
@@ -499,7 +499,7 @@ def delete_log(current_user, log_id, tracker_id):
     db.session.delete(log)
     db.session.commit()
 
-    return jsonify({'message': 'Todo item deleted!'})
+    return jsonify({'message': 'log deleted!'})
 
 
 @app.route('/tracker/<tracker_id>', methods=['GET'])
@@ -509,7 +509,7 @@ def get_one_tracker(current_user, tracker_id):
         id=tracker_id, user_id=current_user.id).first()
 
     if not tracker:
-        return jsonify({'message': 'No todo found!'})
+        return jsonify({'message': 'No tracker found!'})
 
     tracker_data = {}
     tracker_data['id'] = tracker.id
