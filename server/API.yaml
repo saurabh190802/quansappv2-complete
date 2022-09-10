@@ -1,0 +1,380 @@
+{
+  "info":
+    {
+      "_postman_id": "72a9c51c-9deb-4060-a342-3d69bfb87d04",
+      "name": "quansapp",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+      "_exporter_id": "19698927",
+    },
+  "item":
+    [
+      {
+        "name": "GET USER",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/user",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["user"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "DEL USER",
+        "request":
+          {
+            "method": "DELETE",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/deleteuser",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["deleteuser"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "LOGIN",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/login",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["login"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "SIHNUP",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/signup",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["signup"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "GENERATE OTP",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/<email>/generateotp",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["<email>", "generateotp"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "RESET PASSWORD",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/resetpassword",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["resetpassword"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "ADD TRACKER",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/addtracker",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["addtracker"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "GET ALL TRACKERS",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/trackers",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["trackers"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "DEL ALL TRACKERS",
+        "request":
+          {
+            "method": "DELETE",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/delalltrackers",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["delalltrackers"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "DEL TRACKER",
+        "request":
+          {
+            "method": "DELETE",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/deltracker/<tracker_id>",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["deltracker", "<tracker_id>"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "UPDATE TRACKER",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/updatetracker/<tracker_id>",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["updatetracker", "<tracker_id>"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "CREATE LOG",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/<tracker_id>/log",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["<tracker_id>", "log"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "GET ALL LOGS",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/<tracker_id>/alllog",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["<tracker_id>", "alllog"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "DEL ALL LOGS",
+        "request":
+          {
+            "method": "DELETE",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/<tracker_id>/delalllogs",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["<tracker_id>", "delalllogs"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "DEL LOG",
+        "request":
+          {
+            "method": "DELETE",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/deletelog/<tracker_id>/<log_id>",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["deletelog", "<tracker_id>", "<log_id>"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "GET ONE TRACKER",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/tracker/<tracker_id>",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["tracker", "<tracker_id>"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "UPDATE LOG",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/updatelog/<tracker_id>/<log_id>",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["updatelog", "<tracker_id>", "<log_id>"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "EXPORT TRACKER AS CSV",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/export/trackercsv",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["export", "trackercsv"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "EXPORT TRACKER AS PDF",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/export/trackerpdf",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["export", "trackerpdf"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "EXPORT LOGS AS CSV",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/export/<tracker_id>/logcsv",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["export", "<tracker_id>", "logcsv"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "EXPORT LOGS AS PDF",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/export/<tracker_id>/logpdf",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["export", "<tracker_id>", "logpdf"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "GOOGLE AUTH",
+        "request":
+          {
+            "method": "POST",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/google/auth",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["google", "auth"],
+              },
+          },
+        "response": [],
+      },
+      {
+        "name": "PLOT",
+        "request":
+          {
+            "method": "GET",
+            "header": [],
+            "url":
+              {
+                "raw": "https://quansappv2api.herokuapp.com/<tracker_id>/plot",
+                "protocol": "https",
+                "host": ["quansappv2api", "herokuapp", "com"],
+                "path": ["<tracker_id>", "plot"],
+              },
+          },
+        "response": [],
+      },
+    ],
+}
